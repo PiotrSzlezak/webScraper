@@ -14,12 +14,14 @@ public class ScrapData {
 
     public static List<RdbDTO> extractRdb(Document document) {
         log.trace("extractRdb method.");
+        log.info("Extracting RBD data.");
         ExtractRdbDTO extractRdbDTO = new ExtractRdbDTO(document);
         return extractRdbDTO.getTgeRdbDTOList();
     }
 
     public static SummaryRdbDTO extractPodsumowanieRdb(Document document) {
         log.trace("extractPodsumowanieRdb method.");
+        log.info("Extracting RBD summary data.");
         ExtractSummaryRdbDTO extractSummaryRdbDTO = new ExtractSummaryRdbDTO(document);
         return extractSummaryRdbDTO.getTgeSummaryRdbDTO();
     }

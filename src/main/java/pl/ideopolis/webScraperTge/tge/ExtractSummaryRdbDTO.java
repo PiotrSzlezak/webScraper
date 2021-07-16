@@ -37,7 +37,7 @@ class ExtractSummaryRdbDTO {
     }
 
     private void collectDataForTgeSummaryRdb() {
-        log.trace("collectDataForTgeSummaryRdb method.");
+        log.info("collectDataForTgeSummaryRdb method.");
         collectDataDostawy();
 
         collectMinKursMinMWh();
@@ -58,6 +58,8 @@ class ExtractSummaryRdbDTO {
         final Optional<LocalDate> dateOptional = ConvertDate.convertStringToLocalDate(dataDostawyAsString, "yyyy-MM-dd");
         if (dateOptional.isPresent()) {
             summaryRdbDTO.setDataDostawy(dateOptional.get());
+        } else {
+            log.error("String to date conversion was not successful. dataDostawyAsString = {}", dataDostawyAsString);
         }
     }
 

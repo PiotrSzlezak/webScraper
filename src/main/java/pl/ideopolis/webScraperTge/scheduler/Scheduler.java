@@ -25,15 +25,17 @@ public class Scheduler {
     private static final int MINUTE = 60 * SECOND;
     private static final int HOUR = 60 * MINUTE;
     private static final int DAY = 24 * HOUR;
+    private static final int TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD = 10 * SECOND;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private static final TgeRdbService TGE_TGE_RDB_SERVICE = new TgeRdbService();
     private static final String path = "D:\\tge data\\";
 
-    @Scheduled(fixedRate = 10 * SECOND)
+    @Scheduled(fixedRate = TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD)
     public void downloadTGEData() throws IOException {
         log.trace("downloadTGEData method.");
+        log.info("Downloading TGE data. Time interval between each download = {}ms", TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD);
         String date;
         final List<RdbDTO> todaysTGETableDTO = TGE_TGE_RDB_SERVICE.getTodaysTGETableDTO();
         final String todaysTGETableAsString = TGE_TGE_RDB_SERVICE.dtosToString(todaysTGETableDTO);
@@ -51,15 +53,16 @@ public class Scheduler {
         fileName = "tgeSummaryRdbDTOListjson " + date + ".txt";
         SaveToFile.saveToFile(fileName, path, Json.toJson(todaysTGESummaryDTO).toPrettyString());
     }
-//todo dopisać brakujące testy.
-//todo dodać obsługę bazy danych. Można zacząć od h2.
-//todo dodać import z json do bazy danych.
-//todo dodać export z bazy danych do csv/xlsx i json.
-//todo --done--odpalić całość na drugim kompie, z linuxem
-//todo dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
-//todo --opcjonalne     dodać konwersję z json do csv/xlsx
-//todo --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
-//todo dodać funkcję pobierającą pełną, dostępną historię ze strony. Wszystkie dane z ubiegłych dni.
-//todo dodać funkcję sprawdzającą pliki na dysku/bazę danych, żeby wyznaczyć których danych brakuje. -- nie jestem pewny, czy to jest potrzebne
-//todo dodać webowy panel kontrolny
+// TODO: optimize to not download same page multiple times
+// TODO: dopisać brakujące testy.
+// TODO: dodać obsługę bazy danych. Można zacząć od h2.
+// TODO: dodać import z json do bazy danych.
+// TODO: dodać export z bazy danych do csv/xlsx i json.
+// TODO: --done--odpalić całość na drugim kompie, z linuxem
+// TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
+// TODO: --opcjonalne     dodać konwersję z json do csv/xlsx
+// TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
+// TODO: dodać funkcję pobierającą pełną, dostępną historię ze strony. Wszystkie dane z ubiegłych dni.
+// TODO: dodać funkcję sprawdzającą pliki na dysku/bazę danych, żeby wyznaczyć których danych brakuje. -- nie jestem pewny, czy to jest potrzebne
+// TODO: dodać webowy panel kontrolny
 }

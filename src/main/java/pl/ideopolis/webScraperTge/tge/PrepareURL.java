@@ -19,19 +19,17 @@ public class PrepareURL {
     }
 
     public String getUrlForToday() {
-        log.trace("getUrlForToday method.");
-        log.trace("Retrived URL = " + BASE_URL);
+        log.trace("getUrlForToday method. Retrived URL = {}", BASE_URL);
         return BASE_URL;
     }
 
     public String geUrlForAnyDate() {
-        log.trace("geUrlForAnyDate method.");
-        log.trace("Retrived URL = " + specificDateUrl);
+        log.trace("geUrlForAnyDate method. Retrived URL = {}", specificDateUrl);
         return specificDateUrl;
     }
 
     public void setDate(String date) {
-        log.trace("setDate method.");
+        log.trace("setDate method. date = {}",date);
         this.date = date;
         assembleUrl();
     }
@@ -50,6 +48,7 @@ public class PrepareURL {
                 .append("=")
                 .append(ACTION_PARAM_VALUE);
         specificDateUrl = sb.toString();
+        log.trace("Assembled url = {}", specificDateUrl);
     }
 
 }

@@ -12,7 +12,7 @@ public class ConvertDate {
     private final static Logger log = LoggerFactory.getLogger(ConvertDate.class);
 
     public static Optional<LocalDate> convertStringToLocalDate(String dateAsString, String pattern) {
-        log.trace("convertStringToLocalDate method. dateAsString = " + dateAsString + ", pattern = " + pattern);
+        log.trace("convertStringToLocalDate method. dateAsString = {}, pattern = {}", dateAsString, pattern);
         final String[] strings = dateAsString.split(" ");
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate date = LocalDate.parse(strings[2]);
@@ -21,7 +21,7 @@ public class ConvertDate {
     }
 
     public static String convertDateToString(LocalDate date, String format) {
-        log.trace("convertDateToString method. date = " + date + ", format = " + format);
+        log.trace("convertDateToString method. date = {}, format = {}", date, format);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         String dateAsString = formatter.format(date);
         return dateAsString;

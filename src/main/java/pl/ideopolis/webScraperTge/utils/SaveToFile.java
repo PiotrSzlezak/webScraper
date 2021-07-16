@@ -19,7 +19,7 @@ public class SaveToFile {
             bw.write(text);
             bw.flush();
             bw.close();
-            log.trace("File " + fileName + " saved successfully at " + path);
+            log.info("File {} saved successfully at {}", fileName, path);
         } catch (IOException e) {
             log.error("Something went wrong while saving the file.");
             e.printStackTrace();

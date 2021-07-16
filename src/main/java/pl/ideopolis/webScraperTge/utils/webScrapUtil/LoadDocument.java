@@ -18,13 +18,14 @@ public class LoadDocument {
     private String userAgent = "Mozilla";
     private Connection connect;
 
-    // TODO: 14.06.2021 optimize to not download same page multiple times
     public LoadDocument() {
         log.trace("No parameter constructor.");
     }
 
     private void configure() {
         log.trace("configure method.");
+        log.info("Configuration of connection parameters: url = {}, data = \"query\", \"Java\", userAgent = {}, cookie = \"auth\", \"token\", timeout = {}", url, userAgent, timeout);
+
         connect = Jsoup
                 .connect(url)
                 .data("query", "Java")
@@ -37,6 +38,7 @@ public class LoadDocument {
         log.trace("connect method.");
         configure();
         connect.post();
+        log.info("Connecting to the source and downloading a document.");
         doc = connect.get();
     }
 
@@ -48,7 +50,7 @@ public class LoadDocument {
      * Required configuration
      **/
     public LoadDocument setUrl(String url) {
-        log.trace("setUrl method. url = " + url);
+        log.trace("setUrl method. url = {}", url);
         this.url = url;
         return this;
     }
@@ -57,7 +59,7 @@ public class LoadDocument {
      * Optional configuration
      **/
     public LoadDocument setTimeout(int timeout) {
-        log.trace("setTimeout method. timeout = " + timeout);
+        log.trace("setTimeout method. timeout = {}", timeout);
         this.timeout = timeout;
         return this;
     }
@@ -66,7 +68,7 @@ public class LoadDocument {
      * Optional configuration
      **/
     public LoadDocument setUserAgent(String userAgent) {
-        log.trace("setUserAgent method. userAgent = " + userAgent);
+        log.trace("setUserAgent method. userAgent = {}", userAgent);
         this.userAgent = userAgent;
         return this;
     }

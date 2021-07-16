@@ -64,7 +64,7 @@ class ExtractRdbDTO {
         if (dateOptional.isPresent()) {
             rdbDTO.setDataDostawy(dateOptional.get());
         } else {
-            log.error("String to date conversion was not successful.");
+            log.error("String to date conversion was not successful. dataDostawyAsString = " + dataDostawyAsString);
         }
     }
 
