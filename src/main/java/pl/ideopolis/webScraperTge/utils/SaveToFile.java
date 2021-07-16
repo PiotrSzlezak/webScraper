@@ -16,7 +16,7 @@ public class SaveToFile {
 
     public static void saveToFile(String fileName, String path, String text) {
         log.trace("saveToFile method.");
-        init(path+fileName);
+        init(path);
         checkPath();
         if(!issue) {
             try {
@@ -24,7 +24,7 @@ public class SaveToFile {
                 bw.write(text);
                 bw.flush();
                 bw.close();
-                log.info("File {} saved successfully at {}", fileName, path);
+                log.info("File {} saved successfully at {}", fileName, f.getAbsolutePath());
             } catch (IOException e) {
                 log.error("Saving file was not successful. \n{}",e.getMessage());
             }
