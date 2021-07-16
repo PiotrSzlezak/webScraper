@@ -1,17 +1,25 @@
 package pl.ideopolis.webScraperTge.tge.dataModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
+import pl.ideopolis.webScraperTge.utils.ConvertDate;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
 
-public class TgeRdbDTO {
+public class RdbDTO {
+
+    private final static Logger log = LoggerFactory.getLogger(RdbDTO.class);
 
     @JsonProperty("data_dostawy")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date dataDostawy;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dataDostawy;
 
     @JsonProperty("poczatek_pomiaru")
     private int poczatekPomiaru;
@@ -36,24 +44,25 @@ public class TgeRdbDTO {
     @JsonProperty("laczny_wolumen_mwh")
     private BigDecimal lacznyWolumenMWh;
 
-    public TgeRdbDTO() {
-        System.out.println("TgeRdbDTO constructor");
+    public RdbDTO() {
+        log.trace("No parameter constructor.");
     }
 
-    public TgeRdbDTO(TgeRdb tgeRdb){
-        this.dataDostawy = tgeRdb.getDataDostawy();
-        this.poczatekPomiaru = tgeRdb.getPoczatekPomiaru();
-        this.koniecPomiaru = tgeRdb.getKoniecPomiaru();
-        this.kursMinPlnMWh = tgeRdb.getKursMinPlnMWh();
-        this.kursMinEurMWh = tgeRdb.getKursMinEurMWh();
-        this.kursMaksPlnMWh = tgeRdb.getKursMaksPlnMWh();
-        this.kursMaksEurMWh = tgeRdb.getKursMaksEurMWh();
-        this.ostatniKursPlnMWh = tgeRdb.getOstatniKursPlnMWh();
-        this.ostatniKursEurMWh = tgeRdb.getOstatniKursEurMWh();
-        this.lacznyWolumenMWh = tgeRdb.getLacznyWolumenMWh();
+    public RdbDTO(Rdb rdb) {
+        log.trace("From Rdb constructor.");
+        this.dataDostawy = rdb.getDataDostawy();
+        this.poczatekPomiaru = rdb.getPoczatekPomiaru();
+        this.koniecPomiaru = rdb.getKoniecPomiaru();
+        this.kursMinPlnMWh = rdb.getKursMinPlnMWh();
+        this.kursMinEurMWh = rdb.getKursMinEurMWh();
+        this.kursMaksPlnMWh = rdb.getKursMaksPlnMWh();
+        this.kursMaksEurMWh = rdb.getKursMaksEurMWh();
+        this.ostatniKursPlnMWh = rdb.getOstatniKursPlnMWh();
+        this.ostatniKursEurMWh = rdb.getOstatniKursEurMWh();
+        this.lacznyWolumenMWh = rdb.getLacznyWolumenMWh();
     }
 
-    public void setDataDostawy(Date dataDostawy) {
+    public void setDataDostawy(LocalDate dataDostawy) {
         this.dataDostawy = dataDostawy;
     }
 
@@ -93,7 +102,7 @@ public class TgeRdbDTO {
         this.lacznyWolumenMWh = lacznyWolumenMWh;
     }
 
-    public Date getDataDostawy() {
+    public LocalDate getDataDostawy() {
         return dataDostawy;
     }
 
@@ -135,32 +144,18 @@ public class TgeRdbDTO {
 
     @Override
     public String toString() {
+        log.trace("toString method.");
         StringBuilder sb = new StringBuilder();
-        sb.append("\n dataDostawy - ").append(dateToYearMonthDayString(dataDostawy))
-                .append("\n poczatekPomiaru - ").append(poczatekPomiaru)
-                .append("\n koniecPomiaru - ").append(koniecPomiaru)
-                .append("\n kursMinPlnMWh - ").append(kursMinPlnMWh)
-                .append("\n kursMinEurMWh - ").append(kursMinEurMWh)
-                .append("\n kursMaksPlnMWh - ").append(kursMaksPlnMWh)
-                .append("\n kursMaksEurMWh - ").append(kursMaksEurMWh)
-                .append("\n ostatniKursPlnMWh - ").append(ostatniKursPlnMWh)
-                .append("\n ostatniKursEurMWh - ").append(ostatniKursEurMWh)
-                .append("\n lacznyWolumenMWh - ").append(lacznyWolumenMWh);
-        return sb.toString();
-    }
-
-    private String dateToYearMonthDayString(Date date){
-        final String separator = "-";
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        StringBuilder sb = new StringBuilder();
-        String year,month,day;
-        year = String.valueOf(calendar.get(Calendar.YEAR));
-        month = String.valueOf(calendar.get(Calendar.MONTH));
-        month = String.format("%2s",month).replace(' ','0');
-        day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        day = String.format("%2s",day).replace(' ','0');
-        sb.append(year).append(separator).append(month).append(separator).append(day);
+        sb.append("dataDostawy : ").append(ConvertDate.convertDateToString(dataDostawy, "yyyy-MM-dd"))
+                .append("\npoczatekPomiaru : ").append(poczatekPomiaru)
+                .append("\nkoniecPomiaru : ").append(koniecPomiaru)
+                .append("\nkursMinPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(kursMinPlnMWh))
+                .append("\nkursMinEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(kursMinEurMWh))
+                .append("\nkursMaksPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(kursMaksPlnMWh))
+                .append("\nkursMaksEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(kursMaksEurMWh))
+                .append("\nostatniKursPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(ostatniKursPlnMWh))
+                .append("\nostatniKursEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(ostatniKursEurMWh))
+                .append("\nlacznyWolumenMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(lacznyWolumenMWh));
         return sb.toString();
     }
 

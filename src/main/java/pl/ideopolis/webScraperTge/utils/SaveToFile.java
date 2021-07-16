@@ -1,24 +1,29 @@
 package pl.ideopolis.webScraperTge.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class SaveToFile {
 
-    private BufferedWriter bw;
+    private final static Logger log = LoggerFactory.getLogger(SaveToFile.class);
+    private static BufferedWriter bw;
 
-    public void saveToFile (String fileName, String path, String text){
+    public static void saveToFile(String fileName, String path, String text) {
+        log.trace("saveToFile method.");
         try {
-            bw = new BufferedWriter(new FileWriter(path+fileName));
+            bw = new BufferedWriter(new FileWriter(path + fileName));
             bw.write(text);
             bw.flush();
             bw.close();
+            log.trace("File " + fileName + " saved successfully at " + path);
         } catch (IOException e) {
-            System.out.println("Something went wrong while saving to the file.");
+            log.error("Something went wrong while saving the file.");
             e.printStackTrace();
         }
-        System.out.println("File "+fileName+" saved successfully at "+path);
     }
 
 }

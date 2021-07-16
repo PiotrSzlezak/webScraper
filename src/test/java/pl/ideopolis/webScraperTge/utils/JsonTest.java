@@ -3,8 +3,8 @@ package pl.ideopolis.webScraperTge.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;
+import pl.ideopolis.webScraperTge.utils.jsonUtils.Json;
 import pl.ideopolis.webScraperTge.utils.pojo.AuthorPOJO;
-import pl.ideopolis.webScraperTge.utils.pojo.BooksPOJO;
 import pl.ideopolis.webScraperTge.utils.pojo.DatePOJO;
 import pl.ideopolis.webScraperTge.utils.pojo.SimpleTestCaseJsonPOJO;
 

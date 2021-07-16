@@ -1,22 +1,26 @@
 package pl.ideopolis.webScraperTge.tge.dataModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity(name = "TgeRdb")
 @Table(name = "tge_rdb")
-public class TgeRdb {
+public class Rdb {
+
+    private final static Logger log = LoggerFactory.getLogger(Rdb.class);
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(name = "data_dostawy")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date dataDostawy;
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private LocalDate dataDostawy;
 
     @Column(name = "poczatek_pomiaru")
     private int poczatekPomiaru;
@@ -42,10 +46,12 @@ public class TgeRdb {
     @Column(name = "laczny_wolumen_mwh")
     private BigDecimal lacznyWolumenMWh;
 
-    public TgeRdb() {
+    public Rdb() {
+        log.trace("No parameter constructor.");
     }
 
-    public TgeRdb(Date dataDostawy, int poczatekPomiaru, int koniecPomiaru, BigDecimal kursMinPlnMWh, BigDecimal kursMinEurMWh, BigDecimal kursMaksPlnMWh, BigDecimal kursMaksEurMWh, BigDecimal ostatniKursPlnMWh, BigDecimal ostatniKursEurMWh, BigDecimal lacznyWolumenMWh) {
+    public Rdb(LocalDate dataDostawy, int poczatekPomiaru, int koniecPomiaru, BigDecimal kursMinPlnMWh, BigDecimal kursMinEurMWh, BigDecimal kursMaksPlnMWh, BigDecimal kursMaksEurMWh, BigDecimal ostatniKursPlnMWh, BigDecimal ostatniKursEurMWh, BigDecimal lacznyWolumenMWh) {
+        log.trace("All parameters constructor.");
         this.dataDostawy = dataDostawy;
         this.poczatekPomiaru = poczatekPomiaru;
         this.koniecPomiaru = koniecPomiaru;
@@ -62,7 +68,7 @@ public class TgeRdb {
         this.id = id;
     }
 
-    public void setDataDostawy(Date dataDostawy) {
+    public void setDataDostawy(LocalDate dataDostawy) {
         this.dataDostawy = dataDostawy;
     }
 
@@ -106,7 +112,7 @@ public class TgeRdb {
         return id;
     }
 
-    public Date getDataDostawy() {
+    public LocalDate getDataDostawy() {
         return dataDostawy;
     }
 
