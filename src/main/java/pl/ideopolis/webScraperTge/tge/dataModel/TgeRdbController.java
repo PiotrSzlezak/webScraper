@@ -13,9 +13,9 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/tge")
-public class Controller {
+public class TgeRdbController {
 
-    private final static Logger log = LoggerFactory.getLogger(Controller.class);
+    private final static Logger log = LoggerFactory.getLogger(TgeRdbController.class);
 
     @Autowired
     private TgeRdbService tgeRdbService;

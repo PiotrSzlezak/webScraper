@@ -25,45 +25,56 @@ public class TgeRdbService {
         log.trace("No parameter constructor.");
     }
 
+    public Document downloadTodaysDocument() throws IOException {
+        String url = prepareURL.getUrlForToday();
+        return loadDocument.setUrl(url).configure().connect().getDoc();
+    }
+
     public List<RdbDTO> getTodaysTGETableDTO() throws IOException {
-        log.trace("getTodaysTGETableDTO method.");
+        log.trace("getTodaysTGETableDTO method with no parameters.");
         url = prepareURL.getUrlForToday();
         doc = loadDocument(url);
         final List<RdbDTO> rdbDTOS = ScrapData.extractRdb(doc);
         return rdbDTOS;
     }
 
+    public List<RdbDTO> getTodaysTGETableDTO(Document doc) throws IOException {
+        log.trace("getTodaysTGETableDTO method with Document parameter.");
+        final List<RdbDTO> rdbDTOS = ScrapData.extractRdb(doc);
+        return rdbDTOS;
+    }
+
     public SummaryRdbDTO getTodaysTGESummaryDTO() throws IOException {
-        log.trace("getTodaysTGESummaryDTO method.");
+        log.trace("getTodaysTGESummaryDTO method with no parameters.");
         url = prepareURL.getUrlForToday();
         doc = loadDocument(url);
+        final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
+        return summaryRdbDTO;
+    }
+
+    public SummaryRdbDTO getTodaysTGESummaryDTO(Document doc) throws IOException {
+        log.trace("getTodaysTGESummaryDTO method with Document parameter.");
         final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
         return summaryRdbDTO;
     }
 
     public List<RdbDTO> getTGETableFromGivenDateDTO(String date) throws IOException {
         log.trace("getTGETableFromGivenDateDTO method.");
-        prepareURL.setDate(date);
-        url = prepareURL.geUrlForAnyDate();
-        doc = loadDocument(url);
+        doc = loadDocument(prepareURL.specifyDate(date).geUrlForAnyDate());
         final List<RdbDTO> rdbDTOS = ScrapData.extractRdb(doc);
         return rdbDTOS;
     }
 
     public SummaryRdbDTO getTGESummaryFromGivenDateDTO(String date) throws IOException {
         log.trace("getTGESummaryFromGivenDateDTO method.");
-        prepareURL.setDate(date);
-        url = prepareURL.geUrlForAnyDate();
-        doc = loadDocument(url);
+        doc = loadDocument(prepareURL.specifyDate(date).geUrlForAnyDate());
         final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
         return summaryRdbDTO;
     }
 
     private Document loadDocument(String url) throws IOException {
         log.trace("loadDocument method.");
-        loadDocument.setUrl(url);
-        loadDocument.connect();
-        return loadDocument.getDoc();
+        return loadDocument.setUrl(url).configure().connect().getDoc();
     }
 
     public String dtosToString(List<RdbDTO> list) {

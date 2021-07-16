@@ -28,10 +28,11 @@ public class PrepareURL {
         return specificDateUrl;
     }
 
-    public void setDate(String date) {
+    public PrepareURL specifyDate(String date) {
         log.trace("setDate method. date = {}",date);
         this.date = date;
         assembleUrl();
+        return this;
     }
 
     private void assembleUrl() {

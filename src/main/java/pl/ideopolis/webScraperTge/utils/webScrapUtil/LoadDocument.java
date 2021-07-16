@@ -17,29 +17,33 @@ public class LoadDocument {
     private int timeout = 10 * 1000;
     private String userAgent = "Mozilla";
     private Connection connect;
+    private String requestKey = "query";
+    private String requestValue = "Java";
+    private String cookieName = "auth";
+    private String cookieValue = "token";
 
     public LoadDocument() {
         log.trace("No parameter constructor.");
     }
 
-    private void configure() {
+    public LoadDocument configure() {
         log.trace("configure method.");
-        log.info("Configuration of connection parameters: url = {}, data = \"query\", \"Java\", userAgent = {}, cookie = \"auth\", \"token\", timeout = {}", url, userAgent, timeout);
-
+        log.info("Configuration of connection parameters: url = {}, data = {}, {}, userAgent = {}, cookie = {}, {}, timeout = {}", url, requestKey, requestValue, userAgent, cookieName, cookieValue, timeout);
         connect = Jsoup
                 .connect(url)
-                .data("query", "Java")
+                .data(requestKey, requestValue)
                 .userAgent(userAgent)
-                .cookie("auth", "token")
+                .cookie(cookieName,cookieValue)
                 .timeout(timeout);
+        return this;
     }
 
-    public void connect() throws IOException {
+    public LoadDocument connect() throws IOException {
         log.trace("connect method.");
-        configure();
         connect.post();
         log.info("Connecting to the source and downloading a document.");
         doc = connect.get();
+        return this;
     }
 
     public Document getDoc() {
