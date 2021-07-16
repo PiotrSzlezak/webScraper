@@ -3,11 +3,8 @@ package pl.ideopolis.webScraperTge.scheduler;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.ideopolis.webScraperTge.tge.PrepareURL;
-import pl.ideopolis.webScraperTge.tge.ScrapData;
 import pl.ideopolis.webScraperTge.tge.TgeRdbService;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
 import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
@@ -15,10 +12,8 @@ import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.SaveToFile;
 import pl.ideopolis.webScraperTge.utils.SystemProperties;
 import pl.ideopolis.webScraperTge.utils.jsonUtils.Json;
-import pl.ideopolis.webScraperTge.utils.webScrapUtil.LoadDocument;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Component
@@ -48,19 +43,22 @@ public class Scheduler {
         saveToFile("tgeSummaryRdbDTOListjson", date, "txt", Json.toJson(summaryRdbDTO).toPrettyString());
     }
 
-    private void saveToFile(String fileName, String date, String extension, String file){
-        String name = fileName+" "+date+"."+extension;
+    private void saveToFile(String fileName, String date, String extension, String file) {
+        String name = fileName + " " + date + "." + extension;
         SaveToFile.saveToFile(name, SystemProperties.getPath(), file);
     }
-// TODO: dopisać brakujące testy.
-// TODO: dodać obsługę bazy danych. Można zacząć od h2.
-// TODO: dodać import z json do bazy danych.
-// TODO: dodać export z bazy danych do csv/xlsx i json.
-// TODO: --odpalić całość na drugim kompie, z linuxem
-// TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
-// TODO: --opcjonalne     dodać konwersję z json do csv/xlsx
-// TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
-// TODO: dodać funkcję pobierającą pełną, dostępną historię ze strony. Wszystkie dane z ubiegłych dni.
-// TODO: dodać funkcję sprawdzającą pliki na dysku/bazę danych, żeby wyznaczyć których danych brakuje. -- nie jestem pewny, czy to jest potrzebne
-// TODO: dodać webowy panel kontrolny
+    // TODO: dopisać brakujące testy.
+    // TODO: dodać obsługę bazy danych. Można zacząć od h2.
+    // TODO: dodać plik konfiguracyjny
+    // TODO: użyć względnej ścieżki, żeby zawsze działało
+    // TODO: dodać zakładanie folderów, jeżeli nie istnieją
+    // TODO: dodać import z json do bazy danych.
+    // TODO: dodać export z bazy danych do csv/xlsx i json.
+    // TODO: --odpalić całość na drugim kompie, z linuxem
+    // TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
+    // TODO: --opcjonalne     dodać konwersję z json do csv/xlsx
+    // TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
+    // TODO: dodać funkcję pobierającą pełną, dostępną historię ze strony. Wszystkie dane z ubiegłych dni.
+    // TODO: dodać funkcję sprawdzającą pliki na dysku/bazę danych, żeby wyznaczyć których danych brakuje. -- nie jestem pewny, czy to jest potrzebne
+    // TODO: dodać webowy panel kontrolny
 }

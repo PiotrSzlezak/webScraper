@@ -16,9 +16,13 @@ public class SystemProperties {
                 resourcePath = "/media/piotr/Data/tge data/";
                 break;
             case "Windows 10":
-                resourcePath = "D:/tge data/";
+                resourcePath = "../tge data/";
                 break;
         }
         return resourcePath;
+    }
+
+    private static String relativePath(){
+        return null;
     }
 }
