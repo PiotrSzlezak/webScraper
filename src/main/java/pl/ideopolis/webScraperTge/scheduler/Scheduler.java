@@ -46,11 +46,12 @@ public class Scheduler {
     private void saveToFile(String fileName, String date, String extension, String file) {
         String name = fileName + " " + date + "." + extension;
         SaveToFile.saveToFile(name, SystemProperties.getPath(), file);
-    }
+    } //TODO:    Coś te ścieżki nie chcą działać p[oprawnie na linuch. Z IDE śmiga poprawnie, a z terminala wali błędami.
+    // TODO: użyć względnej ścieżki, żeby zawsze działało
+    // TODO: Zamykanie aplikacji z poziomu terminala. Trzeba będzie puścić na oddzielnym wątku.
     // TODO: dopisać brakujące testy.
     // TODO: dodać obsługę bazy danych. Można zacząć od h2.
     // TODO: dodać plik konfiguracyjny
-    // TODO: użyć względnej ścieżki, żeby zawsze działało
     // TODO: dodać zakładanie folderów, jeżeli nie istnieją
     // TODO: dodać import z json do bazy danych.
     // TODO: dodać export z bazy danych do csv/xlsx i json.

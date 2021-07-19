@@ -11,19 +11,12 @@ public class SystemProperties {
 
     public static String getPath() {
         log.trace("getPath method. osName = {}", osName);
-        resourcePath = "../webScraper/TGE RDB data/";
-//        switch (osName) {
-//            case "Linux":
-//                resourcePath = "/media/piotr/Data/tge data/";
-//                break;
-//            case "Windows 10":
-//                resourcePath = "D:/tge data/";
-//                break;
-//        }
+        resourcePath = System.getProperty("user.home") + "/TGE RDB data/";
+
         return resourcePath;
     }
 
-    private static String relativePath(){
+    private static String relativePath() {
         return null;
     }
 }
