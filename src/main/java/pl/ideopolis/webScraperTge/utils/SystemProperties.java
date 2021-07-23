@@ -16,7 +16,4 @@ public class SystemProperties {
         return resourcePath;
     }
 
-    private static String relativePath() {
-        return null;
-    }
 }

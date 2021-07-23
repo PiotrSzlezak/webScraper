@@ -1,0 +1,21 @@
+server.port: 8090
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:D:/h2/WebScraperDB
+#    url: jdbc:h2:file:${System.getProperty("user.home")}/h2/WebScraperDB
+    username: sa
+    password: sa
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+
+logging:
+  level:
+    root: INFO
+    pl.ideopolis.webScraperTge: INFO
+#  file:
+#  file.max-size:
+#  file.max-history:
+#  path:
+

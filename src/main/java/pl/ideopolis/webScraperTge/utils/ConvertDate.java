@@ -27,4 +27,37 @@ public class ConvertDate {
         return dateAsString;
     }
 
+    public static String msToDayHourMinSec(int ms) {
+        int msRest = 0, sec = 0, min = 0, h = 0, day = 0;
+        int wholeSec, wholeMin, wholeHours;
+
+        msRest = ms % 1000;
+        wholeSec = (ms - msRest)/1000;
+        sec = wholeSec % 60;
+        wholeMin = (wholeSec - sec)/60;
+        min = wholeMin % 60;
+        wholeHours = (wholeMin - min)/60;
+        h = wholeHours % 24;
+        day = (wholeHours - h) / 24;
+
+        String time = "";
+        if (day > 0) {
+            if (day > 1) {
+                time = "" + day + "days ";
+            } else {
+                time = "" + day + "day ";
+            }
+        }
+        time = time
+                + h + "h "
+                + min + "min "
+                + sec;
+        if (msRest > 0) {
+            time = time + "," + String.format("%03d", msRest) + "s";
+        } else {
+            time = time + "s";
+        }
+        return time;
+    }
+
 }

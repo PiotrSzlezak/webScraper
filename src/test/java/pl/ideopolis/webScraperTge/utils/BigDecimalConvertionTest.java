@@ -3,14 +3,14 @@ package pl.ideopolis.webScraperTge.utils;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BigDecimalConvertionTest {
 
     @Test
-    public void testStringToBigDecimal(){
+    public void testStringToBigDecimal() {
 
         String testCase1 = "1";
         String testCase2 = "10";
@@ -45,7 +45,7 @@ class BigDecimalConvertionTest {
     }
 
     @Test
-    public void testCheckIfStringContainsAtLeastOneDigit(){
+    public void testCheckIfStringContainsAtLeastOneDigit() {
 
         String testCase1 = "";
         String testCase2 = "123";
@@ -64,15 +64,15 @@ class BigDecimalConvertionTest {
         final boolean test6 = BigDecimalConvertion.checkIfStringContainsAtLeastOneDigit(testCase6);
         final boolean test8 = BigDecimalConvertion.checkIfStringContainsAtLeastOneDigit(testCase8);
 
-        assertEquals(false,test1);
-        assertEquals(true,test2);
-        assertEquals(true,test3);
-        assertEquals(true,test4);
-        assertEquals(true,test5);
-        assertEquals(false,test6);
+        assertEquals(false, test1);
+        assertEquals(true, test2);
+        assertEquals(true, test3);
+        assertEquals(true, test4);
+        assertEquals(true, test5);
+        assertEquals(false, test6);
         assertThrows(NullPointerException.class,
-                ()->BigDecimalConvertion.checkIfStringContainsAtLeastOneDigit(testCase7));
-        assertEquals(true,test8);
+                () -> BigDecimalConvertion.checkIfStringContainsAtLeastOneDigit(testCase7));
+        assertEquals(true, test8);
     }
 
 }
