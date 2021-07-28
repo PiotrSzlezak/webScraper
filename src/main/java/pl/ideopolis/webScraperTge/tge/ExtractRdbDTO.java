@@ -5,7 +5,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
 import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.HtmlTable;

@@ -4,8 +4,6 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.LoadDocument;
 
 import java.io.IOException;
@@ -16,13 +14,19 @@ public class TgeRdbService {
 
     private final static Logger log = LoggerFactory.getLogger(TgeRdbService.class);
 
-    private LoadDocument loadDocument = new LoadDocument();
+    private RdbRepository rdbRepo;
+    private SummaryRepository rdbSummaryRepo;
+    private final LoadDocument loadDocument;
+    private final PrepareURL prepareURL;
     private String url;
-    private PrepareURL prepareURL = new PrepareURL();
     private Document doc;
 
-    public TgeRdbService() {
+    public TgeRdbService(RdbRepository rdbRepo, SummaryRepository rdbSummaryRepo) {
         log.trace("No parameter constructor.");
+        this.rdbRepo = rdbRepo;
+        this.rdbSummaryRepo = rdbSummaryRepo;
+        this.loadDocument = new LoadDocument();
+        this.prepareURL = new PrepareURL();
     }
 
     public Document downloadTodaysDocument() throws IOException {
@@ -38,7 +42,7 @@ public class TgeRdbService {
         return rdbDTOS;
     }
 
-    public List<RdbDTO> getTodaysTGETableDTO(Document doc) throws IOException {
+    public List<RdbDTO> getTodaysTGETableDTO(Document doc) {
         log.trace("getTodaysTGETableDTO method with Document parameter.");
         final List<RdbDTO> rdbDTOS = ScrapData.extractRdb(doc);
         return rdbDTOS;
@@ -52,7 +56,7 @@ public class TgeRdbService {
         return summaryRdbDTO;
     }
 
-    public SummaryRdbDTO getTodaysTGESummaryDTO(Document doc) throws IOException {
+    public SummaryRdbDTO getTodaysTGESummaryDTO(Document doc) {
         log.trace("getTodaysTGESummaryDTO method with Document parameter.");
         final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
         return summaryRdbDTO;
@@ -84,5 +88,12 @@ public class TgeRdbService {
             listAsString = listAsString + dto.toString() + "\n";
         }
         return listAsString;
+    }
+
+    public void saveTgeRdbData(List<Rdb> rdbs, SummaryRdb summary) {
+        for (Rdb rdb : rdbs) {
+            rdbRepo.save(rdb);
+        }
+        rdbSummaryRepo.save(summary);
     }
 }

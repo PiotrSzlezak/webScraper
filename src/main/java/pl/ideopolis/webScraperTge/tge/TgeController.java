@@ -15,8 +15,12 @@ public class TgeController {
 
     private final static Logger log = LoggerFactory.getLogger(TgeController.class);
 
+    private final TgeRdbService tgeRdbService;
+
     @Autowired
-    private TgeRdbService tgeRdbService;
+    private TgeController(TgeRdbService tgeRdbService) {
+        this.tgeRdbService = tgeRdbService;
+    }
 
     @GetMapping("/getTodaysTgeRdbData")
     public String getTodaysTgeRdbData() throws IOException {

@@ -3,8 +3,6 @@ package pl.ideopolis.webScraperTge.tge;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
 
 import java.util.List;
 

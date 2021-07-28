@@ -1,60 +1,80 @@
-package pl.ideopolis.webScraperTge.tge.dataModel;
+package pl.ideopolis.webScraperTge.tge;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
-import pl.ideopolis.webScraperTge.utils.ConvertDate;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class SummaryRdbDTO {
+@Entity
+@Table(name = "tge_rdb_summary")
+public class SummaryRdb {
 
-    private final static Logger log = LoggerFactory.getLogger(SummaryRdbDTO.class);
+    private final static Logger log = LoggerFactory.getLogger(SummaryRdb.class);
 
-    @JsonProperty("data_dostawy")
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "data_dostawy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataDostawy;
 
-    @JsonProperty("min_kurs_min_Pln_MWh")
+    @Column(name = "min_kurs_min_Pln_MWh")
     private BigDecimal minKursMinPlnMWh;
-    @JsonProperty("maks_kurs_min_Pln_MWh")
+    @Column(name = "maks_kurs_min_Pln_MWh")
     private BigDecimal maksKursMinPlnMWh;
-    @JsonProperty("min_kurs_min_Eur_MWh")
+    @Column(name = "min_kurs_min_Eur_MWh")
     private BigDecimal minKursMinEurMWh;
-    @JsonProperty("maks_kurs_min_Eur_MWh")
+    @Column(name = "maks_kurs_min_Eur_MWh")
     private BigDecimal maksKursMinEurMWh;
 
-    @JsonProperty("min_kurs_maks_Pln_MWh")
+    @Column(name = "min_kurs_maks_Pln_MWh")
     private BigDecimal minKursMaksPlnMWh;
-    @JsonProperty("maks_kurs_maks_Pln_MWh")
+    @Column(name = "maks_kurs_maks_Pln_MWh")
     private BigDecimal maksKursMaksPlnMWh;
-    @JsonProperty("min_kurs_maks_Eur_MWh")
+    @Column(name = "min_kurs_maks_Eur_MWh")
     private BigDecimal minKursMaksEurMWh;
-    @JsonProperty("maks_kurs_maks_Eur_MWh")
+    @Column(name = "maks_kurs_maks_Eur_MWh")
     private BigDecimal maksKursMaksEurMWh;
 
-    @JsonProperty("min_ostatni_ours_Pln_MWh")
+    @Column(name = "min_ostatni_ours_Pln_MWh")
     private BigDecimal minOstatniKursPlnMWh;
-    @JsonProperty("maks_ostatni_kurs_Pln_MWh")
+    @Column(name = "maks_ostatni_kurs_Pln_MWh")
     private BigDecimal maksOstatniKursPlnMWh;
-    @JsonProperty("min_ostatni_kurs_Eur_MWh")
+    @Column(name = "min_ostatni_kurs_Eur_MWh")
     private BigDecimal minOstatniKursEurMWh;
-    @JsonProperty("maks_ostatni_kurs_Eur_MWh")
+    @Column(name = "maks_ostatni_kurs_Eur_MWh")
     private BigDecimal maksOstatniKursEurMWh;
 
-    @JsonProperty("suma_laczny_wolumen_MWh")
+    @Column(name = "suma_laczny_wolumen_MWh")
     private BigDecimal sumaLacznyWolumenMWh;
 
-    public SummaryRdbDTO() {
+    public SummaryRdb() {
         log.trace("No parameter constructor.");
     }
 
-    public SummaryRdbDTO(LocalDate dataDostawy, BigDecimal minKursMinPlnMWh, BigDecimal maksKursMinPlnMWh, BigDecimal minKursMinEurMWh, BigDecimal maksKursMinEurMWh, BigDecimal minKursMaksPlnMWh, BigDecimal maksKursMaksPlnMWh, BigDecimal minKursMaksEurMWh, BigDecimal maksKursMaksEurMWh, BigDecimal minOstatniKursPlnMWh, BigDecimal maksOstatniKursPlnMWh, BigDecimal minOstatniKursEurMWh, BigDecimal maksOstatniKursEurMWh, BigDecimal sumaLacznyWolumenMWh) {
+    public SummaryRdb(SummaryRdbDTO dto) {
+        log.trace("Constructor from SummaryRdbDTO.");
+        this.dataDostawy = dto.getDataDostawy();
+        this.minKursMinPlnMWh = dto.getMinKursMinPlnMWh();
+        this.maksKursMinPlnMWh = dto.getMaksKursMinPlnMWh();
+        this.minKursMinEurMWh = dto.getMinKursMinEurMWh();
+        this.maksKursMinEurMWh = dto.getMaksKursMinEurMWh();
+        this.minKursMaksPlnMWh = dto.getMinKursMaksPlnMWh();
+        this.maksKursMaksPlnMWh = dto.getMaksKursMaksPlnMWh();
+        this.minKursMaksEurMWh = dto.getMinKursMaksEurMWh();
+        this.maksKursMaksEurMWh = dto.getMaksKursMaksEurMWh();
+        this.minOstatniKursPlnMWh = dto.getMinOstatniKursPlnMWh();
+        this.maksOstatniKursPlnMWh = dto.getMaksOstatniKursPlnMWh();
+        this.minOstatniKursEurMWh = dto.getMinOstatniKursEurMWh();
+        this.maksOstatniKursEurMWh = dto.getMaksOstatniKursEurMWh();
+        this.sumaLacznyWolumenMWh = dto.getSumaLacznyWolumenMWh();
+    }
+
+    public SummaryRdb(LocalDate dataDostawy, BigDecimal minKursMinPlnMWh, BigDecimal maksKursMinPlnMWh, BigDecimal minKursMinEurMWh, BigDecimal maksKursMinEurMWh, BigDecimal minKursMaksPlnMWh, BigDecimal maksKursMaksPlnMWh, BigDecimal minKursMaksEurMWh, BigDecimal maksKursMaksEurMWh, BigDecimal minOstatniKursPlnMWh, BigDecimal maksOstatniKursPlnMWh, BigDecimal minOstatniKursEurMWh, BigDecimal maksOstatniKursEurMWh, BigDecimal sumaLacznyWolumenMWh) {
         log.trace("All parameter constructor.");
         this.dataDostawy = dataDostawy;
         this.minKursMinPlnMWh = minKursMinPlnMWh;
@@ -70,6 +90,10 @@ public class SummaryRdbDTO {
         this.minOstatniKursEurMWh = minOstatniKursEurMWh;
         this.maksOstatniKursEurMWh = maksOstatniKursEurMWh;
         this.sumaLacznyWolumenMWh = sumaLacznyWolumenMWh;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setDataDostawy(LocalDate dataDostawy) {
@@ -128,6 +152,9 @@ public class SummaryRdbDTO {
         this.sumaLacznyWolumenMWh = sumaLacznyWolumenMWh;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public LocalDate getDataDostawy() {
         return dataDostawy;
@@ -183,27 +210,6 @@ public class SummaryRdbDTO {
 
     public BigDecimal getSumaLacznyWolumenMWh() {
         return sumaLacznyWolumenMWh;
-    }
-
-    @Override
-    public String toString() {
-        log.trace("toString method.");
-        StringBuilder sb = new StringBuilder();
-        sb.append("dataDostawy : ").append(ConvertDate.convertDateToString(dataDostawy, "yyyy-MM-dd"))
-                .append("\nminKursMinPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMinPlnMWh))
-                .append("\nmaksKursMinPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMinPlnMWh))
-                .append("\nminKursMinEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMinEurMWh))
-                .append("\nmaksKursMinEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMinEurMWh))
-                .append("\nminKursMaksPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMaksPlnMWh))
-                .append("\nmaksKursMaksPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMaksPlnMWh))
-                .append("\nminKursMaksEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMaksEurMWh))
-                .append("\nmaksKursMaksEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMaksEurMWh))
-                .append("\nminOstatniKursPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minOstatniKursPlnMWh))
-                .append("\nmaksOstatniKursPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksOstatniKursPlnMWh))
-                .append("\nminOstatniKursEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minOstatniKursEurMWh))
-                .append("\nmaksOstatniKursEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksOstatniKursEurMWh))
-                .append("\nsumaLacznyWolumenMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(sumaLacznyWolumenMWh));
-        return sb.toString();
     }
 
 }

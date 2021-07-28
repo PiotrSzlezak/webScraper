@@ -1,4 +1,4 @@
-package pl.ideopolis.webScraperTge.tge.dataModel;
+package pl.ideopolis.webScraperTge.tge;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity(name = "TgeRdb")
+@Entity
 @Table(name = "tge_rdb")
 public class Rdb {
 
@@ -48,6 +48,20 @@ public class Rdb {
 
     public Rdb() {
         log.trace("No parameter constructor.");
+    }
+
+    public Rdb(RdbDTO dto){
+        log.trace("Constructor from RdbDTO.");
+        this.dataDostawy = dto.getDataDostawy();
+        this.poczatekPomiaru = dto.getPoczatekPomiaru();
+        this.koniecPomiaru = dto.getKoniecPomiaru();
+        this.kursMinPlnMWh = dto.getKursMinPlnMWh();
+        this.kursMinEurMWh = dto.getKursMinEurMWh();
+        this.kursMaksPlnMWh = dto.getKursMaksPlnMWh();
+        this.kursMaksEurMWh = dto.getKursMaksEurMWh();
+        this.ostatniKursPlnMWh = dto.getOstatniKursPlnMWh();
+        this.ostatniKursEurMWh = dto.getOstatniKursEurMWh();
+        this.lacznyWolumenMWh = dto.getLacznyWolumenMWh();
     }
 
     public Rdb(LocalDate dataDostawy, int poczatekPomiaru, int koniecPomiaru, BigDecimal kursMinPlnMWh, BigDecimal kursMinEurMWh, BigDecimal kursMaksPlnMWh, BigDecimal kursMaksEurMWh, BigDecimal ostatniKursPlnMWh, BigDecimal ostatniKursEurMWh, BigDecimal lacznyWolumenMWh) {

@@ -1,4 +1,4 @@
-package pl.ideopolis.webScraperTge.tge.dataModel;
+package pl.ideopolis.webScraperTge.tge;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,6 @@ import pl.ideopolis.webScraperTge.utils.ConvertDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class RdbDTO {
 
@@ -49,7 +48,7 @@ public class RdbDTO {
     }
 
     public RdbDTO(Rdb rdb) {
-        log.trace("From Rdb constructor.");
+        log.trace("Constructor from Rdb.");
         this.dataDostawy = rdb.getDataDostawy();
         this.poczatekPomiaru = rdb.getPoczatekPomiaru();
         this.koniecPomiaru = rdb.getKoniecPomiaru();

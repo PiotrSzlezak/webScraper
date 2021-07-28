@@ -5,15 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import pl.ideopolis.webScraperTge.tge.Rdb;
+import pl.ideopolis.webScraperTge.tge.RdbDTO;
+import pl.ideopolis.webScraperTge.tge.SummaryRdb;
+import pl.ideopolis.webScraperTge.tge.SummaryRdbDTO;
 import pl.ideopolis.webScraperTge.tge.TgeRdbService;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.SaveToFile;
 import pl.ideopolis.webScraperTge.utils.SystemProperties;
 import pl.ideopolis.webScraperTge.utils.jsonUtils.Json;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,25 +30,49 @@ public class Scheduler {
     private static final int DAY = 24 * HOUR;
     private static final int TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD = 12 * HOUR;
 
-    private static final TgeRdbService TGE_RDB_SERVICE = new TgeRdbService();
+    private final TgeRdbService tgeRdbService;
+
+    public Scheduler(TgeRdbService tgeRdbService) {
+        this.tgeRdbService = tgeRdbService;
+    }
 
     @Scheduled(fixedRate = TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD)
     public void downloadTGEData() throws IOException {
         log.trace("downloadTGEData method.");
         log.info("Downloading TGE data. Time interval between each download = {}", ConvertDate.msToDayHourMinSec(TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD));
 
-        Document doc = TGE_RDB_SERVICE.downloadTodaysDocument();
-        final List<RdbDTO> tableRdbDTOs = TGE_RDB_SERVICE.getTodaysTGETableDTO(doc);
-        final SummaryRdbDTO summaryRdbDTO = TGE_RDB_SERVICE.getTodaysTGESummaryDTO(doc);
+        Document doc = tgeRdbService.downloadTodaysDocument();
+        final List<RdbDTO> tableRdbDTOs = tgeRdbService.getTodaysTGETableDTO(doc);
+        final SummaryRdbDTO summaryRdbDTO = tgeRdbService.getTodaysTGESummaryDTO(doc);
         String date = ConvertDate.convertDateToString(tableRdbDTOs.get(0).getDataDostawy(), "yyyy-MM-dd");
 
         saveToFile("tgeRdbDTOListjson", date, "txt", Json.toJson(tableRdbDTOs).toPrettyString());
         saveToFile("tgeSummaryRdbDTOListjson", date, "txt", Json.toJson(summaryRdbDTO).toPrettyString());
+
+        saveToDB(tableRdbDTOs, summaryRdbDTO);
     }
 
     private void saveToFile(String fileName, String date, String extension, String file) {
         String name = fileName + " " + date + "." + extension;
         SaveToFile.saveToFile(name, SystemProperties.getPath(), file);
+    }
+
+    private void saveToDB(List<RdbDTO> dtos, SummaryRdbDTO summaryDto) {
+        final List<Rdb> rdbs = rdbDtoToRdb(dtos);
+        final SummaryRdb summaryRdb = rdbSummaryDtotoRbdSummary(summaryDto);
+        tgeRdbService.saveTgeRdbData(rdbs, summaryRdb);
+    }
+
+    private List<Rdb> rdbDtoToRdb(List<RdbDTO> dtos) {
+        List<Rdb> rdbs = new ArrayList<>();
+        for (RdbDTO dto : dtos) {
+            rdbs.add(new Rdb(dto));
+        }
+        return rdbs;
+    }
+
+    private SummaryRdb rdbSummaryDtotoRbdSummary(SummaryRdbDTO dto) {
+        return new SummaryRdb(dto);
     }
 
     // TODO: dodać obsługę bazy danych. Można zacząć od h2.
@@ -55,7 +82,7 @@ public class Scheduler {
     //   TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
     // TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
     // TODO: --odpalić całość na drugim kompie, z linuxem
-    // TODO: dodać zmienne w pliku konfiguracyjnym
+    // TODO: dodać zmienne w pliku konfiguracyjnym (ścierzki do plików, adresy stron i api)
     // TOTO: config server
     // TODO: dopisać brakujące testy.
     // TODO: Zamykanie aplikacji z poziomu terminala. Trzeba będzie puścić na oddzielnym wątku.
