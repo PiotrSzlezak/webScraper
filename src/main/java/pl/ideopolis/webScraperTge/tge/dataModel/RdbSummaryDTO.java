@@ -11,9 +11,9 @@ import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class SummaryRdbDTO {
+public class RdbSummaryDTO {
 
-    private final static Logger log = LoggerFactory.getLogger(SummaryRdbDTO.class);
+    private final static Logger log = LoggerFactory.getLogger(RdbSummaryDTO.class);
 
     @JsonProperty("data_dostawy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -50,11 +50,11 @@ public class SummaryRdbDTO {
     @JsonProperty("suma_laczny_wolumen_MWh")
     private BigDecimal sumaLacznyWolumenMWh;
 
-    public SummaryRdbDTO() {
+    public RdbSummaryDTO() {
         log.trace("No parameter constructor.");
     }
 
-    public SummaryRdbDTO(LocalDate dataDostawy, BigDecimal minKursMinPlnMWh, BigDecimal maksKursMinPlnMWh, BigDecimal minKursMinEurMWh, BigDecimal maksKursMinEurMWh, BigDecimal minKursMaksPlnMWh, BigDecimal maksKursMaksPlnMWh, BigDecimal minKursMaksEurMWh, BigDecimal maksKursMaksEurMWh, BigDecimal minOstatniKursPlnMWh, BigDecimal maksOstatniKursPlnMWh, BigDecimal minOstatniKursEurMWh, BigDecimal maksOstatniKursEurMWh, BigDecimal sumaLacznyWolumenMWh) {
+    public RdbSummaryDTO(LocalDate dataDostawy, BigDecimal minKursMinPlnMWh, BigDecimal maksKursMinPlnMWh, BigDecimal minKursMinEurMWh, BigDecimal maksKursMinEurMWh, BigDecimal minKursMaksPlnMWh, BigDecimal maksKursMaksPlnMWh, BigDecimal minKursMaksEurMWh, BigDecimal maksKursMaksEurMWh, BigDecimal minOstatniKursPlnMWh, BigDecimal maksOstatniKursPlnMWh, BigDecimal minOstatniKursEurMWh, BigDecimal maksOstatniKursEurMWh, BigDecimal sumaLacznyWolumenMWh) {
         log.trace("All parameter constructor.");
         this.dataDostawy = dataDostawy;
         this.minKursMinPlnMWh = minKursMinPlnMWh;

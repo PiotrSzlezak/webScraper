@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummaryDTO;
 import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.HtmlTable;
@@ -18,7 +18,7 @@ class ExtractSummaryRdbDTO {
 
     private final static Logger log = LoggerFactory.getLogger(ExtractSummaryRdbDTO.class);
 
-    private final SummaryRdbDTO summaryRdbDTO;
+    private final RdbSummaryDTO rdbSummaryDTO;
     private final HtmlTable htmlTable;
     private final String tableId = "footable_kontrakty_godzinowe";
     private final String tablePlnClass = ".table-pln";
@@ -27,13 +27,13 @@ class ExtractSummaryRdbDTO {
     public ExtractSummaryRdbDTO(Document document) {
         log.trace("Document constructor.");
         this.htmlTable = new HtmlTable(document, tableId);
-        this.summaryRdbDTO = new SummaryRdbDTO();
+        this.rdbSummaryDTO = new RdbSummaryDTO();
     }
 
-    public SummaryRdbDTO getTgeSummaryRdbDTO() {
+    public RdbSummaryDTO getTgeSummaryRdbDTO() {
         log.trace("getTgeSummaryRdbDTO method.");
         collectDataForTgeSummaryRdb();
-        return summaryRdbDTO;
+        return rdbSummaryDTO;
     }
 
     private void collectDataForTgeSummaryRdb() {
@@ -57,7 +57,7 @@ class ExtractSummaryRdbDTO {
         final String dataDostawyAsString = extractRow(htmlTable.getTheadRows(), 0, "th", 2).text();
         final Optional<LocalDate> dateOptional = ConvertDate.convertStringToLocalDate(dataDostawyAsString, "yyyy-MM-dd");
         if (dateOptional.isPresent()) {
-            summaryRdbDTO.setDataDostawy(dateOptional.get());
+            rdbSummaryDTO.setDataDostawy(dateOptional.get());
         } else {
             log.error("String to date conversion was not successful. dataDostawyAsString = {}", dataDostawyAsString);
         }
@@ -70,11 +70,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMinKursMinPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMinKursMinPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMinKursMinEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMinKursMinEurMWh(optionalEur.get());
         }
     }
 
@@ -85,11 +85,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMaksKursMinPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMaksKursMinPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMaksKursMinEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMaksKursMinEurMWh(optionalEur.get());
         }
     }
 
@@ -101,11 +101,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMinKursMaksPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMinKursMaksPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMinKursMaksEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMinKursMaksEurMWh(optionalEur.get());
         }
     }
 
@@ -116,11 +116,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMaksKursMaksPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMaksKursMaksPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMaksKursMaksEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMaksKursMaksEurMWh(optionalEur.get());
         }
     }
 
@@ -132,11 +132,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMinOstatniKursPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMinOstatniKursPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMinOstatniKursEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMinOstatniKursEurMWh(optionalEur.get());
         }
     }
 
@@ -147,11 +147,11 @@ class ExtractSummaryRdbDTO {
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
         if (optionalPln.isPresent()) {
-            summaryRdbDTO.setMaksOstatniKursPlnMWh(optionalPln.get());
+            rdbSummaryDTO.setMaksOstatniKursPlnMWh(optionalPln.get());
         }
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
         if (optionalEur.isPresent()) {
-            summaryRdbDTO.setMaksOstatniKursEurMWh(optionalEur.get());
+            rdbSummaryDTO.setMaksOstatniKursEurMWh(optionalEur.get());
         }
     }
 
@@ -162,7 +162,7 @@ class ExtractSummaryRdbDTO {
         final String mwh = row.text();
         final Optional<BigDecimal> optionalLacznyWolumenMwh = BigDecimalConvertion.stringToBigDecimal(mwh);
         if (optionalLacznyWolumenMwh.isPresent()) {
-            summaryRdbDTO.setSumaLacznyWolumenMWh(optionalLacznyWolumenMwh.get());
+            rdbSummaryDTO.setSumaLacznyWolumenMWh(optionalLacznyWolumenMwh.get());
         }
     }
 

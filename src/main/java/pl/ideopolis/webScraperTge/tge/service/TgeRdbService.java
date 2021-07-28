@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.ideopolis.webScraperTge.tge.PrepareURL;
 import pl.ideopolis.webScraperTge.tge.ScrapData;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummaryDTO;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.LoadDocument;
 
 import java.io.IOException;
@@ -18,13 +18,15 @@ public class TgeRdbService {
 
     private final static Logger log = LoggerFactory.getLogger(TgeRdbService.class);
 
-    private LoadDocument loadDocument = new LoadDocument();
+    private final LoadDocument loadDocument;
+    private final PrepareURL prepareURL;
     private String url;
-    private PrepareURL prepareURL = new PrepareURL();
     private Document doc;
 
     public TgeRdbService() {
         log.trace("No parameter constructor.");
+        this.loadDocument = new LoadDocument();
+        this.prepareURL = new PrepareURL();
     }
 
     public Document downloadTodaysDocument() throws IOException {
@@ -46,18 +48,18 @@ public class TgeRdbService {
         return rdbDTOS;
     }
 
-    public SummaryRdbDTO getTodaysTGESummaryDTO() throws IOException {
+    public RdbSummaryDTO getTodaysTGESummaryDTO() throws IOException {
         log.trace("getTodaysTGESummaryDTO method with no parameters.");
         url = prepareURL.getUrlForToday();
         doc = loadDocument(url);
-        final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
-        return summaryRdbDTO;
+        final RdbSummaryDTO rdbSummaryDTO = ScrapData.extractPodsumowanieRdb(doc);
+        return rdbSummaryDTO;
     }
 
-    public SummaryRdbDTO getTodaysTGESummaryDTO(Document doc) throws IOException {
+    public RdbSummaryDTO getTodaysTGESummaryDTO(Document doc) throws IOException {
         log.trace("getTodaysTGESummaryDTO method with Document parameter.");
-        final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
-        return summaryRdbDTO;
+        final RdbSummaryDTO rdbSummaryDTO = ScrapData.extractPodsumowanieRdb(doc);
+        return rdbSummaryDTO;
     }
 
     public List<RdbDTO> getTGETableFromGivenDateDTO(String date) throws IOException {
@@ -67,11 +69,11 @@ public class TgeRdbService {
         return rdbDTOS;
     }
 
-    public SummaryRdbDTO getTGESummaryFromGivenDateDTO(String date) throws IOException {
+    public RdbSummaryDTO getTGESummaryFromGivenDateDTO(String date) throws IOException {
         log.trace("getTGESummaryFromGivenDateDTO method.");
         doc = loadDocument(prepareURL.specifyDate(date).geUrlForAnyDate());
-        final SummaryRdbDTO summaryRdbDTO = ScrapData.extractPodsumowanieRdb(doc);
-        return summaryRdbDTO;
+        final RdbSummaryDTO rdbSummaryDTO = ScrapData.extractPodsumowanieRdb(doc);
+        return rdbSummaryDTO;
     }
 
     private Document loadDocument(String url) throws IOException {

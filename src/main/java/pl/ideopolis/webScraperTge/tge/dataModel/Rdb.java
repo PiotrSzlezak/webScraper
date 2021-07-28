@@ -19,7 +19,7 @@ public class Rdb {
     private Long id;
 
     @Column(name = "data_dostawy")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataDostawy;
 
     @Column(name = "poczatek_pomiaru")

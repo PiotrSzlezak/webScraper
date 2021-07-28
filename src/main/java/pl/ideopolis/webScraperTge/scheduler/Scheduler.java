@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.ideopolis.webScraperTge.tge.service.TgeRdbService;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
-import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummaryDTO;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.SaveToFile;
 import pl.ideopolis.webScraperTge.utils.SystemProperties;
@@ -27,20 +27,24 @@ public class Scheduler {
     private static final int DAY = 24 * HOUR;
     private static final int TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD = 12 * HOUR;
 
-    private static final TgeRdbService TGE_RDB_SERVICE = new TgeRdbService();
+    private final TgeRdbService tgeRdbService;
+
+    public Scheduler(TgeRdbService service){
+        this.tgeRdbService = service;
+    }
 
     @Scheduled(fixedRate = TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD)
     public void downloadTGEData() throws IOException {
         log.trace("downloadTGEData method.");
         log.info("Downloading TGE data. Time interval between each download = {}", ConvertDate.msToDayHourMinSec(TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD));
 
-        Document doc = TGE_RDB_SERVICE.downloadTodaysDocument();
-        final List<RdbDTO> tableRdbDTOs = TGE_RDB_SERVICE.getTodaysTGETableDTO(doc);
-        final SummaryRdbDTO summaryRdbDTO = TGE_RDB_SERVICE.getTodaysTGESummaryDTO(doc);
+        Document doc = tgeRdbService.downloadTodaysDocument();
+        final List<RdbDTO> tableRdbDTOs = tgeRdbService.getTodaysTGETableDTO(doc);
+        final RdbSummaryDTO rdbSummaryDTO = tgeRdbService.getTodaysTGESummaryDTO(doc);
         String date = ConvertDate.convertDateToString(tableRdbDTOs.get(0).getDataDostawy(), "yyyy-MM-dd");
 
         saveToFile("tgeRdbDTOListjson", date, "txt", Json.toJson(tableRdbDTOs).toPrettyString());
-        saveToFile("tgeSummaryRdbDTOListjson", date, "txt", Json.toJson(summaryRdbDTO).toPrettyString());
+        saveToFile("tgeSummaryRdbDTOListjson", date, "txt", Json.toJson(rdbSummaryDTO).toPrettyString());
     }
 
     private void saveToFile(String fileName, String date, String extension, String file) {
