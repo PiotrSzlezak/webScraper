@@ -1,4 +1,4 @@
-package pl.ideopolis.webScraperTge.tge;
+package pl.ideopolis.webScraperTge.tge.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

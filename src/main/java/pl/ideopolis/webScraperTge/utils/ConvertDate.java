@@ -11,11 +11,11 @@ public class ConvertDate {
 
     private final static Logger log = LoggerFactory.getLogger(ConvertDate.class);
 
-    public static Optional<LocalDate> convertStringToLocalDate(String dateAsString, String pattern) {
-        log.trace("convertStringToLocalDate method. dateAsString = {}, pattern = {}", dateAsString, pattern);
-        final String[] strings = dateAsString.split(" ");
+    public static Optional<LocalDate> convertStringToLocalDate(String stringWithDate, String pattern) {
+        log.trace("convertStringToLocalDate method. stringWithDate = {}, pattern = {}", stringWithDate, pattern);
+        final String cleanDateString = stringWithDate.replaceAll("[^-0-9]", "");
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
-        LocalDate date = LocalDate.parse(strings[2]);
+        LocalDate date = LocalDate.parse(cleanDateString);
         dateTimeFormatter.format(date);
         return Optional.of(date);
     }

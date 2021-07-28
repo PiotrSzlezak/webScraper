@@ -1,9 +1,11 @@
-package pl.ideopolis.webScraperTge.tge;
+package pl.ideopolis.webScraperTge.tge.service;
 
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.ideopolis.webScraperTge.tge.PrepareURL;
+import pl.ideopolis.webScraperTge.tge.ScrapData;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
 import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.LoadDocument;

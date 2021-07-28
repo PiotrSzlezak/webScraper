@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.ideopolis.webScraperTge.tge.TgeRdbService;
+import pl.ideopolis.webScraperTge.tge.service.TgeRdbService;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
 import pl.ideopolis.webScraperTge.tge.dataModel.SummaryRdbDTO;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
@@ -55,7 +55,7 @@ public class Scheduler {
     //   TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
     // TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
     // TODO: --odpalić całość na drugim kompie, z linuxem
-    // TODO: dodać zmienne w pliku konfiguracyjnym
+    // TODO: dodać zmienne w pliku konfiguracyjnym (ścierzki do plików, adresy stron i api)
     // TOTO: config server
     // TODO: dopisać brakujące testy.
     // TODO: Zamykanie aplikacji z poziomu terminala. Trzeba będzie puścić na oddzielnym wątku.
