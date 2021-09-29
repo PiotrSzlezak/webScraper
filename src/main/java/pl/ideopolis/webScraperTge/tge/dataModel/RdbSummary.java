@@ -3,22 +3,21 @@ package pl.ideopolis.webScraperTge.tge.dataModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
-import pl.ideopolis.webScraperTge.utils.ConvertDate;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity(name = "TgeRdbSummary")
-@Table(name = "tge_rdb_summary")
+@Entity(name = "RdbSummary")
+@Table(name = "rdb_summary")
 public class RdbSummary {
 
     private final static Logger log = LoggerFactory.getLogger(RdbSummary.class);
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(name = "data_dostawy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -58,25 +57,8 @@ public class RdbSummary {
         log.trace("No parameter constructor.");
     }
 
-    public RdbSummary(LocalDate dataDostawy, BigDecimal minKursMinPlnMWh, BigDecimal maksKursMinPlnMWh, BigDecimal minKursMinEurMWh, BigDecimal maksKursMinEurMWh, BigDecimal minKursMaksPlnMWh, BigDecimal maksKursMaksPlnMWh, BigDecimal minKursMaksEurMWh, BigDecimal maksKursMaksEurMWh, BigDecimal minOstatniKursPlnMWh, BigDecimal maksOstatniKursPlnMWh, BigDecimal minOstatniKursEurMWh, BigDecimal maksOstatniKursEurMWh, BigDecimal sumaLacznyWolumenMWh) {
-        log.trace("All parameter constructor.");
-        this.dataDostawy = dataDostawy;
-        this.minKursMinPlnMWh = minKursMinPlnMWh;
-        this.maksKursMinPlnMWh = maksKursMinPlnMWh;
-        this.minKursMinEurMWh = minKursMinEurMWh;
-        this.maksKursMinEurMWh = maksKursMinEurMWh;
-        this.minKursMaksPlnMWh = minKursMaksPlnMWh;
-        this.maksKursMaksPlnMWh = maksKursMaksPlnMWh;
-        this.minKursMaksEurMWh = minKursMaksEurMWh;
-        this.maksKursMaksEurMWh = maksKursMaksEurMWh;
-        this.minOstatniKursPlnMWh = minOstatniKursPlnMWh;
-        this.maksOstatniKursPlnMWh = maksOstatniKursPlnMWh;
-        this.minOstatniKursEurMWh = minOstatniKursEurMWh;
-        this.maksOstatniKursEurMWh = maksOstatniKursEurMWh;
-        this.sumaLacznyWolumenMWh = sumaLacznyWolumenMWh;
-    }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -137,7 +119,7 @@ public class RdbSummary {
     }
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -195,28 +177,6 @@ public class RdbSummary {
 
     public BigDecimal getSumaLacznyWolumenMWh() {
         return sumaLacznyWolumenMWh;
-    }
-
-    @Override
-    public String toString() {
-        log.trace("toString method.");
-        StringBuilder sb = new StringBuilder();
-        sb.append("id : ").append(id)
-                .append("dataDostawy : ").append(ConvertDate.convertDateToString(dataDostawy, "yyyy-MM-dd"))
-                .append("\nminKursMinPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMinPlnMWh))
-                .append("\nmaksKursMinPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMinPlnMWh))
-                .append("\nminKursMinEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMinEurMWh))
-                .append("\nmaksKursMinEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMinEurMWh))
-                .append("\nminKursMaksPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMaksPlnMWh))
-                .append("\nmaksKursMaksPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMaksPlnMWh))
-                .append("\nminKursMaksEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minKursMaksEurMWh))
-                .append("\nmaksKursMaksEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksKursMaksEurMWh))
-                .append("\nminOstatniKursPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minOstatniKursPlnMWh))
-                .append("\nmaksOstatniKursPlnMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksOstatniKursPlnMWh))
-                .append("\nminOstatniKursEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(minOstatniKursEurMWh))
-                .append("\nmaksOstatniKursEurMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(maksOstatniKursEurMWh))
-                .append("\nsumaLacznyWolumenMWh : ").append(BigDecimalConvertion.bigDecimalToPlainStringIfNotNull(sumaLacznyWolumenMWh));
-        return sb.toString();
     }
 
 }

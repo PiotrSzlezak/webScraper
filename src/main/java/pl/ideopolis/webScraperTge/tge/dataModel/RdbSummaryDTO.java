@@ -185,6 +185,25 @@ public class RdbSummaryDTO {
         return sumaLacznyWolumenMWh;
     }
 
+    public RdbSummary toRdb() {
+        RdbSummary rdb = new RdbSummary();
+        rdb.setDataDostawy(dataDostawy);
+        rdb.setMinKursMinPlnMWh(minKursMinPlnMWh);
+        rdb.setMaksKursMinPlnMWh(maksKursMinPlnMWh);
+        rdb.setMinKursMinEurMWh(minKursMinEurMWh);
+        rdb.setMaksKursMinEurMWh(maksKursMinEurMWh);
+        rdb.setMinKursMaksPlnMWh(minKursMaksPlnMWh);
+        rdb.setMaksKursMaksPlnMWh(maksKursMaksPlnMWh);
+        rdb.setMinKursMaksEurMWh(minKursMaksEurMWh);
+        rdb.setMaksKursMaksEurMWh(maksKursMaksEurMWh);
+        rdb.setMinOstatniKursPlnMWh(minOstatniKursPlnMWh);
+        rdb.setMaksOstatniKursPlnMWh(maksOstatniKursPlnMWh);
+        rdb.setMinOstatniKursEurMWh(minOstatniKursEurMWh);
+        rdb.setMaksOstatniKursEurMWh(maksOstatniKursEurMWh);
+        rdb.setSumaLacznyWolumenMWh(sumaLacznyWolumenMWh);
+        return rdb;
+    }
+
     @Override
     public String toString() {
         log.trace("toString method.");

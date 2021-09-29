@@ -11,7 +11,7 @@ import pl.ideopolis.webScraperTge.tge.service.TgeRdbService;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/TGE")
+@RequestMapping("/tge")
 public class TgeController {
 
     private final static Logger log = LoggerFactory.getLogger(TgeController.class);

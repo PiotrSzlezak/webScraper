@@ -3,11 +3,14 @@ package pl.ideopolis.webScraperTge.scheduler;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.ideopolis.webScraperTge.tge.service.TgeRdbService;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbTable;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbTableDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummary;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummaryDTO;
+import pl.ideopolis.webScraperTge.tge.service.TgeRdbService;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.SaveToFile;
 import pl.ideopolis.webScraperTge.utils.SystemProperties;
@@ -29,7 +32,8 @@ public class Scheduler {
 
     private final TgeRdbService tgeRdbService;
 
-    public Scheduler(TgeRdbService service){
+    @Autowired
+    public Scheduler(TgeRdbService service) {
         this.tgeRdbService = service;
     }
 
@@ -39,17 +43,24 @@ public class Scheduler {
         log.info("Downloading TGE data. Time interval between each download = {}", ConvertDate.msToDayHourMinSec(TIME_INTERVAL_OF_TGE_DATA_DOWNLOAD));
 
         Document doc = tgeRdbService.downloadTodaysDocument();
-        final List<RdbDTO> tableRdbDTOs = tgeRdbService.getTodaysTGETableDTO(doc);
+        final List<RdbTableDTO> rdbTableDTOS = tgeRdbService.getTodaysTGETableDTO(doc);
         final RdbSummaryDTO rdbSummaryDTO = tgeRdbService.getTodaysTGESummaryDTO(doc);
-        String date = ConvertDate.convertDateToString(tableRdbDTOs.get(0).getDataDostawy(), "yyyy-MM-dd");
+        String date = ConvertDate.convertDateToString(rdbTableDTOS.get(0).getDataDostawy(), "yyyy-MM-dd");
 
-        saveToFile("tgeRdbDTOListjson", date, "txt", Json.toJson(tableRdbDTOs).toPrettyString());
+        saveToFile("tgeRdbDTOListjson", date, "txt", Json.toJson(rdbTableDTOS).toPrettyString());
         saveToFile("tgeSummaryRdbDTOListjson", date, "txt", Json.toJson(rdbSummaryDTO).toPrettyString());
+
+        saveToDB(rdbTableDTOS, rdbSummaryDTO);
     }
 
     private void saveToFile(String fileName, String date, String extension, String file) {
         String name = fileName + " " + date + "." + extension;
         SaveToFile.saveToFile(name, SystemProperties.getPath(), file);
+    }
+
+    private void saveToDB(List<RdbTableDTO> dtos, RdbSummaryDTO summaryDTO) {
+        final List<RdbTable> savedRdbTables = tgeRdbService.saveTgeRdb(dtos);
+        final RdbSummary savedRdbSummary = tgeRdbService.saveTgeRdbSummary(summaryDTO);
     }
 
     // TODO: dodać obsługę bazy danych. Można zacząć od h2.
@@ -59,7 +70,7 @@ public class Scheduler {
     //   TODO: --opcjonalne     dodać pobieranie bezpośrednio do csv/xlsx
     // TODO: dodać zapisywanie logów do pliku z daną częstotliwością np. dzienną, lub przy konkretnych wydarzeniach np. jak poleci wyjątek.
     // TODO: --odpalić całość na drugim kompie, z linuxem
-    // TODO: dodać zmienne w pliku konfiguracyjnym (ścierzki do plików, adresy stron i api)
+    // TODO: dodać zmienne w pliku konfiguracyjnym (ścierzki do plików, adresy stron i api, baza danych i logowanie)
     // TOTO: config server
     // TODO: dopisać brakujące testy.
     // TODO: Zamykanie aplikacji z poziomu terminala. Trzeba będzie puścić na oddzielnym wątku.

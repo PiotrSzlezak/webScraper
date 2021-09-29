@@ -1,4 +1,4 @@
-package pl.ideopolis.webScraperTge.tge.dataModel;
+package pl.ideopolis.webScraperTge.tge.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

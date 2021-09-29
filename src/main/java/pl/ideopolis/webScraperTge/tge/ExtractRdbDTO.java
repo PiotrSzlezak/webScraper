@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbTableDTO;
 import pl.ideopolis.webScraperTge.utils.BigDecimalConvertion;
 import pl.ideopolis.webScraperTge.utils.ConvertDate;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.HtmlTable;
@@ -20,7 +20,7 @@ class ExtractRdbDTO {
 
     private final static Logger log = LoggerFactory.getLogger(ExtractRdbDTO.class);
 
-    private RdbDTO rdbDTO;
+    private RdbTableDTO rdbTableDTO;
     private final HtmlTable htmlTable;
     private final String tableId = "footable_kontrakty_godzinowe";
     private final String tablePlnClass = ".table-pln";
@@ -31,17 +31,17 @@ class ExtractRdbDTO {
     public ExtractRdbDTO(Document document) {
         log.trace("Document constructor.");
         this.htmlTable = new HtmlTable(document, tableId);
-        this.rdbDTO = new RdbDTO();
+        this.rdbTableDTO = new RdbTableDTO();
         this.numberOfRows = htmlTable.getTbodyRows().size();
     }
 
-    public List<RdbDTO> getTgeRdbDTOList() {
+    public List<RdbTableDTO> getTgeRdbDTOList() {
         log.trace("getTgeRdbDTOList method.");
         List tgeRdbDTOList = new ArrayList();
         for (int i = 0; i < numberOfRows; i++) {
             collectDataForTgeRdb();
-            tgeRdbDTOList.add(rdbDTO);
-            this.rdbDTO = new RdbDTO();
+            tgeRdbDTOList.add(rdbTableDTO);
+            this.rdbTableDTO = new RdbTableDTO();
             currentRow++;
         }
         return tgeRdbDTOList;
@@ -62,7 +62,7 @@ class ExtractRdbDTO {
         final String dataDostawyAsString = extractRow(htmlTable.getTheadRows(), 0, "th", 2).text();
         final Optional<LocalDate> dateOptional = ConvertDate.convertStringToLocalDate(dataDostawyAsString, "yyyy-MM-dd");
         if (dateOptional.isPresent()) {
-            rdbDTO.setDataDostawy(dateOptional.get());
+            rdbTableDTO.setDataDostawy(dateOptional.get());
         } else {
             log.error("String to date conversion was not successful. dataDostawyAsString = " + dataDostawyAsString);
         }
@@ -72,8 +72,8 @@ class ExtractRdbDTO {
         log.trace("collectCzasPomiaru method.");
         final String czasPomiaruAsString = extractRow(htmlTable.getTbodyRows(), currentRow, "td", 0).text();
         String[] strings = czasPomiaruAsString.split("-");
-        rdbDTO.setPoczatekPomiaru(Integer.parseInt(strings[0]));
-        rdbDTO.setKoniecPomiaru(Integer.parseInt(strings[1]));
+        rdbTableDTO.setPoczatekPomiaru(Integer.parseInt(strings[0]));
+        rdbTableDTO.setKoniecPomiaru(Integer.parseInt(strings[1]));
     }
 
     private void collectKursMinMWh() {
@@ -82,9 +82,9 @@ class ExtractRdbDTO {
         final String pln = row.select(tablePlnClass).text();
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
-        optionalPln.ifPresent(bigDecimal -> rdbDTO.setKursMinPlnMWh(bigDecimal));
+        optionalPln.ifPresent(bigDecimal -> rdbTableDTO.setKursMinPlnMWh(bigDecimal));
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
-        optionalEur.ifPresent(bigDecimal -> rdbDTO.setKursMinEurMWh(bigDecimal));
+        optionalEur.ifPresent(bigDecimal -> rdbTableDTO.setKursMinEurMWh(bigDecimal));
     }
 
     private void collectKursMaksMWh() {
@@ -93,9 +93,9 @@ class ExtractRdbDTO {
         final String pln = row.select(tablePlnClass).text();
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
-        optionalPln.ifPresent(bigDecimal -> rdbDTO.setKursMaksPlnMWh(bigDecimal));
+        optionalPln.ifPresent(bigDecimal -> rdbTableDTO.setKursMaksPlnMWh(bigDecimal));
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
-        optionalEur.ifPresent(bigDecimal -> rdbDTO.setKursMaksEurMWh(bigDecimal));
+        optionalEur.ifPresent(bigDecimal -> rdbTableDTO.setKursMaksEurMWh(bigDecimal));
     }
 
     private void collectOstatniKursMWh() {
@@ -104,16 +104,16 @@ class ExtractRdbDTO {
         final String pln = row.select(tablePlnClass).text();
         final String eur = row.select(tableEurClass).text();
         final Optional<BigDecimal> optionalPln = BigDecimalConvertion.stringToBigDecimal(pln);
-        optionalPln.ifPresent(bigDecimal -> rdbDTO.setOstatniKursPlnMWh(bigDecimal));
+        optionalPln.ifPresent(bigDecimal -> rdbTableDTO.setOstatniKursPlnMWh(bigDecimal));
         final Optional<BigDecimal> optionalEur = BigDecimalConvertion.stringToBigDecimal(eur);
-        optionalEur.ifPresent(bigDecimal -> rdbDTO.setOstatniKursEurMWh(bigDecimal));
+        optionalEur.ifPresent(bigDecimal -> rdbTableDTO.setOstatniKursEurMWh(bigDecimal));
     }
 
     private void collectLacznyWolumenMWh() {
         log.trace("collectLacznyWolumenMWh method.");
         final Element row = extractRow(htmlTable.getTbodyRows(), currentRow, "td", 5);
         final Optional<BigDecimal> optionalLacznyWolumenMwh = BigDecimalConvertion.stringToBigDecimal(row.text());
-        optionalLacznyWolumenMwh.ifPresent(bigDecimal -> rdbDTO.setLacznyWolumenMWh(bigDecimal));
+        optionalLacznyWolumenMwh.ifPresent(bigDecimal -> rdbTableDTO.setLacznyWolumenMWh(bigDecimal));
     }
 
     private Element extractRow(Elements rows, int row, String thOrTd, int column) {

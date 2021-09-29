@@ -4,19 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity(name = "TgeRdb")
-@Table(name = "tge_rdb")
-public class Rdb {
+@Entity(name = "Rdb")
+@Table(name = "RDB")
+public class RdbTable {
 
-    private final static Logger log = LoggerFactory.getLogger(Rdb.class);
+    private final static Logger log = LoggerFactory.getLogger(RdbTable.class);
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(name = "data_dostawy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -24,7 +25,6 @@ public class Rdb {
 
     @Column(name = "poczatek_pomiaru")
     private int poczatekPomiaru;
-
     @Column(name = "koniec_pomiaru")
     private int koniecPomiaru;
 
@@ -46,26 +46,8 @@ public class Rdb {
     @Column(name = "laczny_wolumen_mwh")
     private BigDecimal lacznyWolumenMWh;
 
-    public Rdb() {
+    public RdbTable() {
         log.trace("No parameter constructor.");
-    }
-
-    public Rdb(LocalDate dataDostawy, int poczatekPomiaru, int koniecPomiaru, BigDecimal kursMinPlnMWh, BigDecimal kursMinEurMWh, BigDecimal kursMaksPlnMWh, BigDecimal kursMaksEurMWh, BigDecimal ostatniKursPlnMWh, BigDecimal ostatniKursEurMWh, BigDecimal lacznyWolumenMWh) {
-        log.trace("All parameters constructor.");
-        this.dataDostawy = dataDostawy;
-        this.poczatekPomiaru = poczatekPomiaru;
-        this.koniecPomiaru = koniecPomiaru;
-        this.kursMinPlnMWh = kursMinPlnMWh;
-        this.kursMinEurMWh = kursMinEurMWh;
-        this.kursMaksPlnMWh = kursMaksPlnMWh;
-        this.kursMaksEurMWh = kursMaksEurMWh;
-        this.ostatniKursPlnMWh = ostatniKursPlnMWh;
-        this.ostatniKursEurMWh = ostatniKursEurMWh;
-        this.lacznyWolumenMWh = lacznyWolumenMWh;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setDataDostawy(LocalDate dataDostawy) {
@@ -108,10 +90,6 @@ public class Rdb {
         this.lacznyWolumenMWh = lacznyWolumenMWh;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public LocalDate getDataDostawy() {
         return dataDostawy;
     }
@@ -151,4 +129,5 @@ public class Rdb {
     public BigDecimal getLacznyWolumenMWh() {
         return lacznyWolumenMWh;
     }
+
 }
