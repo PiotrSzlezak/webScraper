@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.ideopolis.webScraperTge.tge.PrepareURL;
 import pl.ideopolis.webScraperTge.tge.ScrapData;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbTable;
-import pl.ideopolis.webScraperTge.tge.dataModel.RdbTableDTO;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummary;
 import pl.ideopolis.webScraperTge.tge.dataModel.RdbSummaryDTO;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbTable;
+import pl.ideopolis.webScraperTge.tge.dataModel.RdbTableDTO;
 import pl.ideopolis.webScraperTge.tge.repository.RdbRepository;
 import pl.ideopolis.webScraperTge.tge.repository.RdbSummaryRepository;
 import pl.ideopolis.webScraperTge.utils.webScrapUtil.LoadDocument;
@@ -31,14 +31,6 @@ public class TgeRdbService {
     private final RdbSummaryRepository rdbSummaryRepo;
     private String url;
     private Document doc;
-
-//    public TgeRdbService(RdbRepository rdbRepository, RdbSummaryRepository rdbSummaryRepository) {
-//        log.trace("Constructor.");
-//        this.loadDocument = new LoadDocument();
-//        this.prepareURL = new PrepareURL();
-//        this.rdbRepo = rdbRepository;
-//        this.rdbSummaryRepo = rdbSummaryRepository;
-//    }
 
     @Autowired
     public TgeRdbService(RdbRepository rdbRepository, RdbSummaryRepository rdbSummaryRepository) {
@@ -61,7 +53,7 @@ public class TgeRdbService {
         return ScrapData.extractRdb(doc);
     }
 
-    public List<RdbTableDTO> getTodaysTGETableDTO(Document doc) throws IOException {
+    public List<RdbTableDTO> getTodaysTGETableDTO(Document doc) {
         log.trace("getTodaysTGETableDTO method with Document parameter.");
         return ScrapData.extractRdb(doc);
     }
@@ -73,7 +65,7 @@ public class TgeRdbService {
         return ScrapData.extractPodsumowanieRdb(doc);
     }
 
-    public RdbSummaryDTO getTodaysTGESummaryDTO(Document doc) throws IOException {
+    public RdbSummaryDTO getTodaysTGESummaryDTO(Document doc) {
         log.trace("getTodaysTGESummaryDTO method with Document parameter.");
         return ScrapData.extractPodsumowanieRdb(doc);
     }
@@ -116,9 +108,9 @@ public class TgeRdbService {
         return rdbSummaryRepo.save(summaryDTO.toRdb());
     }
 
-    private List<RdbTable> rdbDTOsToRdbs(List<RdbTableDTO> dtos){
+    private List<RdbTable> rdbDTOsToRdbs(List<RdbTableDTO> dtos) {
         List<RdbTable> rdbTables = new ArrayList<>();
-        for (RdbTableDTO dto: dtos) {
+        for (RdbTableDTO dto : dtos) {
             rdbTables.add(dto.toRdb());
         }
         return rdbTables;
